@@ -1,7 +1,11 @@
 //TODO: répartir les interfaces et classes dans des fichiers distincts
 
+//Définition d'un modèle générique (Polymorphisme + Substitution de Liskov)
 abstract class AbstractAddress {
+
     protected _street: string;
+    //TODO: ajouter d'autres champs communs à tous types d'adresse
+
     get street(): string {
         return this._street;
     }
@@ -9,9 +13,9 @@ abstract class AbstractAddress {
     set street(value: string) {
         this._street = value;
     }
-    //TODO: ajouter d'autres champs communs à tous types d'adresse
 }
 
+//Modèle de données (Single Responsibility)
 class FrenchAddress extends AbstractAddress {
 
     private _region: FrenchRegion;
@@ -32,6 +36,7 @@ class FrenchAddress extends AbstractAddress {
 
 }
 
+//Modèle de données (Single Responsibility)
 class USAAddress extends AbstractAddress {
 
     private _state: USAState;
@@ -47,6 +52,13 @@ class USAAddress extends AbstractAddress {
     }
     public set state(value: USAState) {
         this._state = value;
+    }
+}
+
+class GenericAddress extends AbstractAddress {
+    constructor(street: string) {
+        super();
+        this._street = street;
     }
 }
 
@@ -82,6 +94,7 @@ class USAState {
     }
 }
 
+//Classe comportementale (Single Responsibility)
 class FrenchAddressDisplayer {
 
     _address: FrenchAddress;
@@ -95,6 +108,7 @@ class FrenchAddressDisplayer {
     }
 }
 
+//Classe comportementale (Single Responsibility)
 class USAAddressDisplayer {
 
     _address: USAAddress;
@@ -108,23 +122,45 @@ class USAAddressDisplayer {
     }
 }
 
+//+/- implémentation du Design Pattern Strategy
+//délégation de l'action display à des classes spécifiques (FrenchAddressDisplayer + USAAddressDisplayer)
 class AddressDisplayer {
 
-    protected _address: AbstractAddress;
+    private _address: AbstractAddress;
 
     constructor(address: AbstractAddress) {
         this._address = address;
     }
 
     display(): string {
+
+        //on se base sur le type concret de l'adresse communiquée
+        //pour employer la classe adaptée à son affichage spécifique
+        let displayer: FrenchAddressDisplayer | USAAddressDisplayer;//il pourrait être plus pertinent d'indiquer le type any
+
         if (this._address instanceof FrenchAddress) {
-            const displayer = new FrenchAddressDisplayer(this._address as FrenchAddress);
-            return displayer.display();
+            displayer = new FrenchAddressDisplayer(this._address as FrenchAddress);
+            //return displayer.display();
         }
+
         if (this._address instanceof USAAddress) {
-            const displayer = new USAAddressDisplayer(this._address as USAAddress);
-            return displayer.display();
+            displayer = new USAAddressDisplayer(this._address as USAAddress);
+            //return displayer.display();
         }
+
+        if (displayer)
+            return displayer.display();
+
+        //si le type concret n'est pas connu
+        else
+            return `Street : ${this._address.street}`;//A minima on retourne le ou les champs définis par la classe AbstractAddress
+    }
+
+    get address(): AbstractAddress {
+        return this._address;
+    }
+    set address(value: AbstractAddress) {
+        this._address = value;
     }
 }
 
@@ -134,6 +170,7 @@ function main(): void {
     const a_french_address = new FrenchAddress("1 place Stanislas", grand_est);
 
     const an_address_displayer = new AddressDisplayer(a_french_address);
+
     const result1: string = an_address_displayer.display();
     console.log(result1);
 
@@ -141,8 +178,15 @@ function main(): void {
     const an_usa_address = new USAAddress("1600, Pennsylvania Avenue NW", newyork);
 
     const an_other_address_displayer = new AddressDisplayer(an_usa_address);
+
     const result2: string = an_other_address_displayer.display();
     console.log(result2);
+
+    const an_indian_address = new GenericAddress("India street");
+    const a_third_address_displayer = new AddressDisplayer(an_indian_address);
+
+    const result3: string = a_third_address_displayer.display();
+    console.log(result3);
 
 }
 

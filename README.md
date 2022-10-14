@@ -1,6 +1,6 @@
-# Typescript Bootstrap Project
+# Address
 
-Projet Typescript pré-configuré (Jest, Nodemon...)
+Preuve de concept : SOLID ()
 
 ## Spécifications techniques
 
