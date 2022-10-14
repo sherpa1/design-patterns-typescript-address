@@ -1,5 +1,5 @@
 {
-    "name": "typescript-project-bootstrap",
+    "name": "design-patterns-typescript-address",
     "version": "1.0.0",
     "description": "Projet Typescript pré-configuré (Jest, Nodemon...)",
     "main": "src/main.ts",
@@ -13,14 +13,14 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/sherpa1/typescript-project-bootstrap.git"
+        "url": "git+https://github.com/sherpa1/design-patterns-typescript-address.git"
     },
     "author": "Alexandre Leroux (alex@sherpa.one)",
     "license": "ISC",
     "bugs": {
-        "url": "https://github.com/sherpa1/typescript-project-bootstrap/issues"
+        "url": "https://github.com/sherpa1/design-patterns-typescript-address/issues"
     },
-    "homepage": "https://github.com/sherpa1/typescript-project-bootstrap#readme",
+    "homepage": "https://github.com/sherpa1/design-patterns-typescript-address#readme",
     "dependencies": {
         "@types/jest": "^29.1.1",
         "ts-jest": "^29.0.3",
