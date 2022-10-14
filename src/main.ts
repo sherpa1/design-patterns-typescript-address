@@ -1,3 +1,5 @@
+//TODO: répartir les interfaces et classes dans des fichiers distincts
+
 abstract class AbstractAddress {
     protected _street: string;
     get street(): string {
